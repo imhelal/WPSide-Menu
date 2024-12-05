@@ -2,10 +2,13 @@
 
 class WPSM_Menu {
 
+	public $template;
+
 	private static $instance  = null;
 
 	private function __construct() {
 		if($this->is_compatible()) {
+			$this->template = WPSM_Template::getInstance();
 			add_action('init', array($this, 'init'));
 		}
 	}
@@ -27,6 +30,8 @@ class WPSM_Menu {
 			add_action('admin_notices', array($this, 'elementor_missing_notice'));
 			return false;
 		}
+
+		return true;
 	}
 
 	/**
@@ -55,8 +60,8 @@ class WPSM_Menu {
 	 * Load plugin assets
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style('wpsm-style', WPSM_PLUING_DIR . 'public/css/wpside-menu.css');
-		wp_enqueue_script('wpsm-script', WPSM_PLUING_DIR . 'public/js/wpside-menu.js');
+		wp_enqueue_style('wpsm-style', WPSM_PLUGIN_DIR . 'public/css/wpside-menu.css');
+		wp_enqueue_script('wpsm-script', WPSM_PLUGIN_DIR . 'public/js/wpside-menu.js');
 	}
 
 	/**
@@ -68,6 +73,7 @@ class WPSM_Menu {
 			array(
 				'title' => esc_html__('MayaStudio', 'wpside-menu'),
 				'icon' => 'fa fa-home',
+				''
 			)
 		);
 	}
@@ -76,7 +82,7 @@ class WPSM_Menu {
 	 * Elementor widgets registerer
 	 */
 	public function elementor_widgets_init($widgets_manager) {
-		require_once WPSM_PLUING_DIR . 'includes/widgets_loader.php';
+		require_once WPSM_PLUGIN_DIR . 'includes/widgets_loader.php';
 		$widgets_manager->register(new WPSM_Menu_Widget());
 	}
 

@@ -17,11 +17,17 @@ if( !defined( 'ABSPATH' ) ) {
 }
 
 // Plugin directory path
-define('WPSM_PLUING_DIR', plugin_dir_path( __FILE__ ));
+define('WPSM_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
+// Template path
+define('WPSM_TEMPLATE_DIR', WPSM_PLUGIN_DIR . 'public/templates/');
+
+
+// Helper functions
+require_once WPSM_PLUGIN_DIR . 'includes/functions.php';
 
 if( !class_exists('wpsm_plugin_loader') ) {
 	function wpsm_plugin_loader() {
-		require_once WPSM_PLUING_DIR . 'includes/WPSM_Menu.php';
+		require_once WPSM_PLUGIN_DIR . 'includes/classes.php';
 		WPSM_Menu::getInstance();
 	}
 
