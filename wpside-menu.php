@@ -18,6 +18,8 @@ if( !defined( 'ABSPATH' ) ) {
 
 // Plugin directory path
 define('WPSM_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
+// Assets directory path
+define('WPSM_ASSETS_DIR', plugin_dir_url(__FILE__) . 'public/assets/');
 // Template path
 define('WPSM_TEMPLATE_DIR', WPSM_PLUGIN_DIR . 'public/templates/');
 

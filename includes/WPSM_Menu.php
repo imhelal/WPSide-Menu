@@ -60,8 +60,9 @@ class WPSM_Menu {
 	 * Load plugin assets
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style('wpsm-style', WPSM_PLUGIN_DIR . 'public/css/wpside-menu.css');
-		wp_enqueue_script('wpsm-script', WPSM_PLUGIN_DIR . 'public/js/wpside-menu.js');
+		wp_enqueue_style('wpsm-style', WPSM_ASSETS_DIR . 'css/wpside-menu.css');
+		wp_enqueue_script('wpsm-script', WPSM_ASSETS_DIR . 'js/wpside-menu.js', array(), null, true);
+
 	}
 
 	/**
