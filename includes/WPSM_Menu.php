@@ -47,6 +47,9 @@ class WPSM_Menu {
 	 */
 	public function init() {
 
+		// update checker
+		add_filter( 'site_transient_update_plugins', array($this, 'update_checker') );
+
 		// Assets loader
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 
@@ -56,11 +59,48 @@ class WPSM_Menu {
 
 	}
 
+	// Check for update
+	public function update_checker($transient){
+		if ( empty( $transient->checked ) ) {
+			return $transient;
+		}
+
+		$plugin_slug = 'wpside-menu/wpside-menu.php';
+		$remote_url  = 'https://relaxwp.com/plugins/wpside-menu/metadata.json';
+
+		// Fetch plugin metadata.
+		$response = wp_remote_get( $remote_url );
+
+		// Debug: Log the response
+		//error_log('Update checker response: ' . print_r($response, true));
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return $transient;
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		// Debug: Log the metadata
+		//error_log('Update metadata: ' . print_r($data, true));
+
+		// Check if the new version is greater than the current version.
+		if ( version_compare( $data['version'], get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_slug )['Version'], '>' ) ) {
+			$transient->response[ $plugin_slug ] = (object) [
+				'slug'        => $plugin_slug,
+				'new_version' => $data['version'],
+				'package'     => $data['download_url']
+			];
+		}
+
+		return $transient;
+	}
+
+
 	/**
 	 * Load plugin assets
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style('wpsm-style', WPSM_ASSETS_DIR . 'css/wpside-menu.css');
+//		wp_enqueue_style('wpsm-style', WPSM_ASSETS_DIR . 'css/wpside-menu.css');
 		wp_enqueue_script('wpsm-script', WPSM_ASSETS_DIR . 'js/wpside-menu.js', array(), null, true);
 
 	}

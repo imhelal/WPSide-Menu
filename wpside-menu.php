@@ -2,13 +2,13 @@
 /**
  * Plugin Name: WP Side Menu
  * Description: The plugin to create an awesome mobile menu.
- * Version: 1.0
+ * Version: 1.1.0
  * Requires at least: 5.2
  * Requires PHP: 7.2
  * Author: MayaStudio
  * Author URI: https://mayastudio.co.il
  * Text Domain: wpside-menu
- *
+ * Update URI: https://relaxwp.com/plugins/wpside-menu/
  */
 
 // Exit if direct access
